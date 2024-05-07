@@ -1,5 +1,6 @@
 package com.semicolon.Ecommmerce.service;
 
+import com.semicolon.Ecommmerce.exceptions.E_commerceExceptions;
 import com.semicolon.Ecommmerce.exceptions.UserAlreadyExistException;
 import com.semicolon.Ecommmerce.models.Item;
 import com.semicolon.Ecommmerce.models.Product;
@@ -8,6 +9,7 @@ import com.semicolon.Ecommmerce.repository.OurUserRepo;
 import com.semicolon.Ecommmerce.dto.RequestAndResponse;
 import com.semicolon.Ecommmerce.models.OurUsers;
 import com.semicolon.Ecommmerce.utils.Mappers;
+import org.apache.commons.validator.routines.EmailValidator;
 import org.hibernate.service.UnknownUnwrapTypeException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -39,6 +41,8 @@ public class AuthService {
     private ItemServices itemServices;
     public RequestAndResponse signUp(RequestAndResponse registrationRequest){
         RequestAndResponse resp = new RequestAndResponse();
+        if(!EmailValidator.getInstance().isValid(registrationRequest.getEmail()))
+            throw new E_commerceExceptions("something went wrong");
         if(ourUserRepo.findByEmail(registrationRequest.getEmail()).isPresent())throw new UserAlreadyExistException("user already exists");
         OurUsers ourUsers = new OurUsers();
         Mappers.mapRequestToUser(ourUsers, registrationRequest);
@@ -66,7 +70,7 @@ public class AuthService {
         OurUsers users = ourUserRepo.findByEmail(ourEmail).orElseThrow();
         if (jwtUtils.isTokenValid(refreshTokenRequest.getToken(), users)) {
             var jwt = jwtUtils.generateToken(users);
-            response.setStatusCode(200);
+            response.setStatusCode(201);
             response.setToken(jwt);
             response.setRefreshToken(refreshTokenRequest.getToken());
             response.setExpirationTime("24Hr");
@@ -128,4 +132,7 @@ public class AuthService {
     public Product findProductById(UUID id){
         return productServices.findProductsById(id);
     }
+
+
+    public
 }

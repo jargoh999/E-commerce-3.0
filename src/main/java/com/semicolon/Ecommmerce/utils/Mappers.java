@@ -20,14 +20,14 @@ public class Mappers {
         if (ourUserResult != null && ourUserResult.getId()>0) {
             response.setStoreUser(ourUserResult.getUsername());
             response.setMessage("User Saved Successfully");
-            response.setStatusCode(200);
+            response.setStatusCode(201);
         }
 
     }
 
 
     public static void mapUserToLogInResponse( RequestAndResponse response,String jwt,String refreshToken) {
-        response.setStatusCode(200);
+        response.setStatusCode(201);
         response.setToken(jwt);
         response.setRefreshToken(refreshToken);
         response.setExpirationTime("24Hr");

@@ -39,6 +39,7 @@ public class ItemServices {
 
     public Item removeProductFromItem(RequestAndResponse requestAndResponse){
         Item item = itemRepository.findItemById(requestAndResponse.getItemId());
+        if(item==null)throw new RuntimeException("item removed or never added to cart");
         List<Product> products2 = item.getProducts();
         final Product product =productRepository.findProductById(requestAndResponse.getProductId());
         for (int productCounter = 1; productCounter<=requestAndResponse.getNoOfProduct(); productCounter++) {

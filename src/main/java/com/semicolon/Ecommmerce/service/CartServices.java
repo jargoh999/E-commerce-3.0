@@ -24,6 +24,7 @@ public class CartServices {
     ,new ShoppingCart(),new ShoppingCart(),new ShoppingCart(),new ShoppingCart());
 
     public ShoppingCart assignCart(String username) {
+        if(findShoppingCartByOwner(username)!=null)throw new UserAlreadyExistException(String.format("%s%d%s%s","cart",findShoppingCartByOwner(username).getId(),"has been assigned to ",username));
         Long randomCart=new SecureRandom().nextLong(0L,cartsUnUsed.size());
         shoppingCartRepository.saveAll(cartsUnUsed);
         var storeUser =ourUserRepo.findByEmail(username);
