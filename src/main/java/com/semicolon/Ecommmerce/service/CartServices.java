@@ -30,6 +30,7 @@ public class CartServices {
         if(storeUser.isEmpty())throw new UserAlreadyExistException("how did you get here ?");
         var yourCart=shoppingCartRepository.findShoppingCartById(randomCart);
         yourCart.setCartOwner(username);
+        yourCart.setItems(List.of());
         storeUser.get().setCart(yourCart);
         ourUserRepo.save(storeUser.get());
         return shoppingCartRepository.save(yourCart);

@@ -30,7 +30,8 @@ public class RequestAndResponse {
     private Double productPrice;
     private String productDescription;
     private ProductCategory productCategory;
-    private Integer noOfProduct=null;
+    @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+    private int noOfProduct;
     private UUID productId;
     private Long itemId;
 }

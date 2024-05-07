@@ -31,7 +31,7 @@ public class Mappers {
         response.setToken(jwt);
         response.setRefreshToken(refreshToken);
         response.setExpirationTime("24Hr");
-        response.setMessage("Successfully Refreshed Token");
+        response.setMessage("Successfully generated Token");
     }
 
     }

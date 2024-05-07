@@ -71,7 +71,6 @@ public class AuthService {
             response.setRefreshToken(refreshTokenRequest.getToken());
             response.setExpirationTime("24Hr");
             response.setMessage("Successfully Refreshed Token");
-
         }
         response.setStatusCode(500);
         return response;

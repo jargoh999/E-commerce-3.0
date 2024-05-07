@@ -25,12 +25,12 @@ public class AdminUsers {
     @Autowired
     private AuthService authService;
 
-    @GetMapping("/public/product")
+    @GetMapping("public/product")
     public ResponseEntity<Object> getAllProducts(){
         return ResponseEntity.ok(productRepo.findAllProducts());
     }
 
-    @PostMapping("/public/save-product")
+    @PostMapping("public/save-product")
     public ResponseEntity<?> signUp(@RequestBody RequestAndResponse productRequest){
         try{
               return new ResponseEntity<>(authService.addProduct(productRequest),OK);
@@ -62,19 +62,6 @@ public class AdminUsers {
 
 
 
-    @GetMapping("/public/both")
-    public ResponseEntity<Object> bothAdminAndUsersApi(){
-        return ResponseEntity.ok("Both Admin and Users Can  access the api");
-    }
-
-    @GetMapping("/public/email")
-    public Authentication getCurrentUserEmail() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication); //get all details(name,email,password,roles e.t.c) of the user
-        System.out.println(authentication.getDetails()); // get remote ip
-        System.out.println(authentication.getName()); //returns the email because the email is the unique identifier
-        return authentication; // returns the email
-    }
 
     @PutMapping("public/assign-cart-to/{username}")
     public ResponseEntity<?> selectItems(@PathVariable("username") String username){
@@ -112,6 +99,14 @@ public class AdminUsers {
             return new ResponseEntity<>(authService.removeProductFromCart(requestAndResponse), OK);
         }catch (E_commerceExceptions exceptions){
             return new ResponseEntity<>(exceptions.getMessage(), BAD_REQUEST);
+        }
+    }
+    @GetMapping("public/view/{owner}/cart")
+    public ResponseEntity<?> viewCart(@PathVariable("owner") String owner){
+        try{
+            return new ResponseEntity<>(authService.findCartByUserName(owner), FOUND);
+        }catch (E_commerceExceptions exceptions){
+            return new ResponseEntity<>(exceptions.getMessage(),FORBIDDEN);
         }
     }
 }

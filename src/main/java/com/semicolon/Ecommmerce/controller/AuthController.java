@@ -60,12 +60,5 @@ public class AuthController {
         return itemServices.findAllItems();
     }
 
-    @GetMapping("/view/{owner}/cart")
-    public ResponseEntity<?> viewCart(@PathVariable("owner") String owner){
-        try{
-            return new ResponseEntity<>(authService.findCartByUserName(owner), FOUND);
-        }catch (E_commerceExceptions exceptions){
-            return new ResponseEntity<>(exceptions.getMessage(),FORBIDDEN);
-        }
-    }
+
 }
